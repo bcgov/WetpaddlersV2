@@ -1,5 +1,5 @@
 enum Views {
-  A = "A",
+  DatasetList = "DatasetList",
   B = "Map",
   C = "C",
   D = "D",
