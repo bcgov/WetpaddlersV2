@@ -1,0 +1,66 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: wetpaddlersapibc
+  namespace: cf52af-tools
+  uid: 5e1b7d43-5935-4602-ae11-697f796fae07
+  resourceVersion: '11401073904'
+  generation: 1
+  creationTimestamp: '2024-09-17T22:02:49Z'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: build.openshift.io/v1
+      time: '2024-09-17T22:02:49Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:failedBuildsHistoryLimit': {}
+          'f:output':
+            'f:to': {}
+          'f:runPolicy': {}
+          'f:source':
+            'f:contextDir': {}
+            'f:git':
+              .: {}
+              'f:ref': {}
+              'f:uri': {}
+            'f:type': {}
+          'f:strategy':
+            'f:dockerStrategy':
+              .: {}
+              'f:dockerfilePath': {}
+            'f:type': {}
+          'f:successfulBuildsHistoryLimit': {}
+          'f:triggers': {}
+        'f:status':
+          'f:lastVersion': {}
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'wetpaddlersapi:latest'
+  resources: {}
+  successfulBuildsHistoryLimit: 1
+  failedBuildsHistoryLimit: 1
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Dockerfile
+  postCommit: {}
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/bcgov/WetpaddlersV2.git'
+      ref: main
+    contextDir: api
+  triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secretReference:
+          name: wetpaddlersgh
+  runPolicy: SerialLatestOnly
+status:
+  lastVersion: 807
