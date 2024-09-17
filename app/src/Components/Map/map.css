@@ -16,3 +16,17 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.maplibregl-ctrl-group > button {
+  height: 30pt;
+  width: 30pt;
+}
+
+.loadedMap {
+  display: none;
+}
+
+.maplibregl-canvas-container.maplibregl-interactive,
+.maplibregl-canvas-container.maplibregl-interactive:active {
+  cursor: crosshair;
+}
