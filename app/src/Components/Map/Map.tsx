@@ -7,6 +7,7 @@ import './map.css';
 import { useEffect, useRef } from 'react';
 import { MapContent } from './Map.style';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import LayerPicker from '../LayerPicker/LayerPicker';
 // @ts-expect-error Override
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 // @ts-expect-error Override
@@ -63,6 +64,7 @@ const Map = () => {
 
   return (
     <CommonFullCont>
+      <LayerPicker />
       <MapContent>
         <div ref={mapCont} className="map" />
       </MapContent>
