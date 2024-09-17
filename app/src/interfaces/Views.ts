@@ -1,6 +1,6 @@
 enum Views {
   A = "A",
-  B = "B",
+  B = "Map",
   C = "C",
   D = "D",
   E = "E",
