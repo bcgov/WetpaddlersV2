@@ -1,4 +1,5 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
+import { headerHeight } from '../../assets/common-styles/common.styles';
 
 export const StyledHeader = styled.header`
   width: 100%;
@@ -10,7 +11,7 @@ export const StyledHeader = styled.header`
   background-color: #333;
   display: flex;
   align-items: center;
-  height: 40pt;
+  height: ${headerHeight};
   padding-left: 1em;
   border-bottom: 1pt solid black;
   h1 {

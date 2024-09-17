@@ -1,5 +1,5 @@
-import Views from "../../interfaces/Views";
-import { StyledHeader, StyledLi, StyledUl } from "./Header.style";
+import Views from '../../interfaces/Views';
+import { StyledHeader, StyledLi, StyledUl } from './Header.style';
 
 type PropTypes = {
   toggleTab: (tab: Views) => void;

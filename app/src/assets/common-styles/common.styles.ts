@@ -1,9 +1,11 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
+export const headerHeight = '40pt';
 export const CommonFullCont = styled.div`
   display: flex;
   width: 100vw;
-  height: 100vh;
+  margin-top: ${headerHeight};
+  height: calc(100vh - ${headerHeight});
   justify-content: center;
   flex-direction: column;
   align-items: center;
