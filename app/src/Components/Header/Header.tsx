@@ -9,8 +9,8 @@ const Header = ({ toggleTab }: PropTypes) => (
     <h1>Wet Paddlers V2</h1>
     <nav>
       <StyledUl>
-        {Object.values(Views).map((view) => (
-          <StyledLi onClick={toggleTab.bind(this, Views[view])}>
+        {Object.keys(Views).map((view) => (
+          <StyledLi key={view} onClick={toggleTab.bind(this, Views[view])}>
             {view}
           </StyledLi>
         ))}
