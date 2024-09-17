@@ -23,7 +23,6 @@ app.add_middleware(
 async def root():
     return {"message": "Hello World"}
 
-
 @app.post("/geo")
 async def geo(geo: dict, response: Response):
     logger.info("New geo posted: %s", str(geo))
@@ -31,3 +30,9 @@ async def geo(geo: dict, response: Response):
     name=geo.get("name", str(random.randint(0,99999999)))
     object_store_url = await push_to_object_store(name)
     return {"object_store_url": object_store_url}
+
+
+@app.post("/WFSTOGEOJSON")
+async def WFSTOGEOJSON(req: dict, response: Response):
+    logger.info("New WFS url: %s", str(req))
+    return str(req)
