@@ -21,4 +21,5 @@ COPY . /api
 RUN poetry install
 
 # Run your app
+expose 8000
 CMD [ "poetry", "run", "uvicorn", "api.main:app", "--reload" ]

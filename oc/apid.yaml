@@ -113,7 +113,7 @@ spec:
         - name: container
           image: 'image-registry.openshift-image-registry.svc:5000/cf52af-tools/wetpaddlersapi@sha256:0f83e271eb069e3cd184de74c8a99e42081a0dd4b8cfe6a99a6e90ae1b9f456d'
           ports:
-            - containerPort: 8080
+            - containerPort: 8000
               protocol: TCP
           resources: {}
           terminationMessagePath: /dev/termination-log
