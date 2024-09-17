@@ -2,12 +2,16 @@
 name = "api"
 version = "0.1.0"
 description = ""
-authors = ["Micheal Wells <micheal.w.wells@gmail.com>"]
+authors = ["Conor Brady <con.brad@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
-fastapi = "^0.112.2"
+python = "^3.11"
+fastapi = "^0.103.0"        
+pydantic-geojson = "0.1.1" 
+uvicorn = "^0.23.2"         
+aiobotocore = "^2.7.0"      
+python-decouple = "^3.8"    
 
 
 [build-system]
