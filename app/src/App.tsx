@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import Header from "./Components/Header/Header";
+import Views from "./interfaces/Views";
+import ComponentA from "./Components/ComponentA/ComponentA";
+import ComponentB from "./Components/ComponentB/ComponentB";
+import ComponentC from "./Components/ComponentC/ComponentC";
+import ComponentD from "./Components/ComponentD/ComponentD";
+import ComponentE from "./Components/ComponentE/ComponentE";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
+  const [tab, setTab] = useState<Views>(Views.E);
+  const handleViewChange = (view: Views) => {
+    setTab(view);
+  };
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header toggleTab={handleViewChange} />
+      {tab === Views.A && <ComponentA />}
+      {tab === Views.B && <ComponentB />}
+      {tab === Views.C && <ComponentC />}
+      {tab === Views.D && <ComponentD />}
+      {tab === Views.E && <ComponentE />}
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
