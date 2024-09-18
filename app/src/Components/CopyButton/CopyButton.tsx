@@ -12,6 +12,7 @@ const CopyButton = ({ content }: PropTypes) => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(content.toString());
       setSuccess(true);
+      setTimeout(() => setSuccess(false), 1500);
     }
   };
   return (
