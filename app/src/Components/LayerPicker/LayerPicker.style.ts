@@ -13,9 +13,14 @@ export const ClosedLayerToggle = styled.button`
   top: ${absPosition.y};
   padding: 0;
   margin: 0;
+  border: none;
+  border-radius: 4pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
-  height: 50pt;
-  width: 50pt;
+  height: 34pt;
+  width: 34pt;
   &:hover {
     cursor: pointer;
     background-color: #eee;
@@ -33,18 +38,17 @@ export const MainCont = styled.div`
   right: ${absPosition.x};
   top: ${absPosition.y};
   position: absolute;
-  border-radius: 8pt;
   overflow: hidden;
+  border-radius: 8pt;
   box-sizing: border-box;
-  height: 300pt;
-  width: 300pt;
+  height: calc(95vh - 60pt);
+  width: 80vw;
   background-color: white;
 `;
 
 export const ContentCont = styled.div`
-  height: 80%;
+  height: calc(100% - 40pt);
   overflow-y: auto;
-  color: black;
   & > h2 {
     text-align: left;
     margin-bottom: 5pt;
@@ -76,21 +80,21 @@ export const ClosePickerButton = styled.button`
   border: none;
 `;
 
-export const ListItem = styled.li`
-  width: 100%;
-  display: flex;
-  text-wrap: wrap;
-  padding: 3pt;
-  font-size: 12pt;
-  text-align: left;
-  justify-content: flex-start;
-  &:nth-of-type(odd) {
-    background-color: #ddd;
-  }
-`;
-
 export const CheckBox = styled.input`
   min-height: 20pt;
   min-width: 20pt;
   margin-right: 1rem;
+`;
+
+export const ListButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30pt;
+  width: 30pt;
+`;
+
+export const ListButtonIcon = styled.img`
+  height: 80%;
+  width: 80%;
 `;

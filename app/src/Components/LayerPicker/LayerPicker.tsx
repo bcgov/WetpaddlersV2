@@ -1,16 +1,14 @@
 import { useContext, useState } from 'react';
 import AppContext from '../../providers/context';
-
 import {
-  CheckBox,
   ClosedLayerIcon,
   ClosedLayerToggle,
   ClosePickerButton,
   ContentCont,
-  ListItem,
   MainCont,
   TopBar,
 } from './LayerPicker.style';
+import ListItem from './ListItem/ListItem';
 
 const LayerPicker = () => {
   const {
@@ -18,9 +16,8 @@ const LayerPicker = () => {
     layerPicker: { selectLayers, setSelectLayers },
   } = useContext(AppContext);
   if (!capabilities) throw Error('No Context provided');
-  const [open, setOpen] = useState<boolean>(false);
 
-  // Hook up to Context
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleToggle = () => {
     setOpen((prev) => !prev);
@@ -61,18 +58,12 @@ const LayerPicker = () => {
             <h2>Layers</h2>
             <ul>
               {capabilities.map((item) => (
-                <ListItem key={item?.Name?.Title?._text ?? Math.random()}>
-                  <CheckBox
-                    type="checkbox"
-                    onChange={handleSelectItem.bind(this, item)}
-                    checked={selectLayers.some(
-                      (selectItem) =>
-                        selectItem?.MetadataURL?._attributes ===
-                        item?.MetadataURL?._attributes,
-                    )}
-                  ></CheckBox>
-                  {item?.Title?._text ?? 'Name not provided'}
-                </ListItem>
+                <ListItem
+                  key={item?.Name?.Title?._text ?? Math.random()}
+                  data={item}
+                  handleSelectItem={handleSelectItem}
+                  selectLayers={selectLayers}
+                />
               ))}
             </ul>
           </ContentCont>
