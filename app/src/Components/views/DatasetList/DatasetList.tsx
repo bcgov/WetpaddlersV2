@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
-import { CommonFullCont } from '../../assets/common-styles/common.styles';
+import { CommonFullCont } from '../../../assets/common-styles/common.styles';
 import { xml2js } from 'xml-js';
-import AppContext from '../../providers/context';
+import AppContext from '../../../providers/context';
 
 const url =
   'https://openmaps.gov.bc.ca/geo/pub/ows?service=WFS&request=GetCapabilities&AcceptFormats=application/json';
