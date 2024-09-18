@@ -1,4 +1,4 @@
-import { CommonFullCont } from "../../assets/common-styles/common.styles";
+import { CommonFullCont } from '../../../assets/common-styles/common.styles';
 
 const ComponentE = () => {
   return <CommonFullCont>Component E</CommonFullCont>;

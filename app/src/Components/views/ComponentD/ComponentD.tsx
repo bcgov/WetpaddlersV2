@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { CommonFullCont } from '../../assets/common-styles/common.styles';
-import AppContext from '../../providers/context';
+import { CommonFullCont } from '../../../assets/common-styles/common.styles';
+import AppContext from '../../../providers/context';
 
 const ComponentD = () => {
   const context = useContext(AppContext);

@@ -2,22 +2,30 @@ import { useState } from 'react';
 import './App.css';
 import Header from './Components/Header/Header';
 import Views from './interfaces/Views';
-import DatasetList from './Components/DatasetList/DatasetList';
-import Map from './Components/Map/Map';
-import ComponentC from './Components/ComponentC/ComponentC';
-import ComponentD from './Components/ComponentD/ComponentD';
-import ComponentE from './Components/ComponentE/ComponentE';
+import DatasetList from './Components/views/DatasetList/DatasetList';
+import Map from './Components/views/Map/Map';
+import ComponentC from './Components/views/ComponentC/ComponentC';
+import ComponentD from './Components/views/ComponentD/ComponentD';
+import ComponentE from './Components/views/ComponentE/ComponentE';
 import AppContext from './providers/context';
 
 const App = () => {
   const [tab, setTab] = useState<Views>(Views.E);
-  const [contextExample, setContextExample] = useState<string>('Hi');
+  const [contextExample, setContextExample] = useState<string>();
+  const [capabilities, setCapabilities] = useState([]);
+  const [selectLayers, setSelectLayers] = useState<Record<string, any>[]>([]);
   const handleViewChange = (view: Views) => setTab(view);
-
   return (
-    <AppContext.Provider value={{ contextExample, setContextExample }}>
+    <AppContext.Provider
+      value={{
+        contextExample,
+        setContextExample,
+        dataSetList: { capabilities, setCapabilities },
+        layerPicker: { selectLayers, setSelectLayers },
+      }}
+    >
       <Header toggleTab={handleViewChange} />
-      {tab === Views.B && <Map />}
+      {tab === Views.Map && <Map />}
       {tab === Views.DatasetList && <DatasetList />}
       {tab === Views.C && <ComponentC />}
       {tab === Views.D && <ComponentD />}
