@@ -21,7 +21,7 @@ COPY . /api
 RUN poetry install
 
 # Install tippecanoe for pmtiles
-RUN git clone https://github.com/felt/tippecanoe.git && cd tippecanoe && make -j && make install && cd ..
+RUN git clone https://github.com/felt/tippecanoe.git --branch 2.29.0 && cd tippecanoe && make -j && make install && cd ..
 
 
 # Run your app
