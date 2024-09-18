@@ -7,7 +7,12 @@ import { useEffect, useRef, useState } from 'react';
 import { MapContent } from './Map.style';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import LayerPicker from '../../LayerPicker/LayerPicker';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  MapLibreMap,
+  MlMarker,
+  MlWmsLayer,
+} from '@mapcomponents/react-maplibre';
 // @ts-expect-error Override
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 // @ts-expect-error Override
@@ -19,8 +24,9 @@ const positionMarkerEl = document.createElement('div');
 positionMarkerEl.className = 'userTrackingMarker';
 positionMarkerEl.style.backgroundImage = 'url("/wheres-waldo-seeklogo.svg")';
 
-const Map = () => {
+const Map = (props: any) => {
   const dispatch = useDispatch();
+  const layerDict = useSelector((state: any) => state.MapState.layersDict);
   const mapCont = useRef<any>(null);
   const map = useRef<any>(null);
   const drawTools = useRef<any>(new MapboxDraw());
@@ -29,6 +35,7 @@ const Map = () => {
   const marker = new maplibregl.Marker({
     element: positionMarkerEl,
   });
+  /*
   useEffect(() => {
     if (map.current) return;
     map.current = new maplibregl.Map({
@@ -64,11 +71,44 @@ const Map = () => {
     marker.setLngLat([lat, long]);
     marker.addTo(map.current);
   });
+  useEffect(() => {
+    marker.remove();
+    marker.setLngLat([lat, long]);
+    marker.addTo(map.current);
+  }, [lat, long]);
+    */
   return (
     <CommonFullCont>
       <LayerPicker />
       <MapContent>
-        <div ref={mapCont} className="map" />
+        {' '}
+        {/*<div ref={mapCont} className="map" />*/}
+        <MapLibreMap
+          mapId="map"
+          options={{
+            zoom: 14.5,
+            center: [7.0851268, 50.73884],
+          }}
+        ></MapLibreMap>
+        <MlWmsLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+        {/* put waldo in content here:*/}
+        <MlMarker
+          content="<div>This is where waldo is</div>"
+          lat={50.73884}
+          lng={7.0851268}
+        />
+        {Object.keys(layerDict)
+          .filter((layer) => !layerDict?.[layer]?.vectorToggle)
+          .map((layer) => {
+            const layerUrl = `https://openmaps.gov.bc.ca/geo/ows?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.3.0&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&raster-opacity=0.5&layers=${layerDict[layer].name}`;
+            return (
+              <MlWmsLayer
+                key={layerDict[layer].id}
+                url={layerUrl}
+                visible={layerDict[layer].toggle}
+              />
+            );
+          })}
       </MapContent>
     </CommonFullCont>
   );

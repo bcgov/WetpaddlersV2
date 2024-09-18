@@ -40,7 +40,7 @@ function* handle_REQUEST_LAYER_VECTOR(action) {
     if(false) {
       const response = yield call(get_PMTILE_URL, action.payload.layerID, mapState.layersDict[action.payload.layerID].name, action.payload.filterShape )
       if(response.status === 200) {
-        yield put({ type: LAYER_VECTOR_SUCCESS, payload: response.data }) 
+        yield put({ type: LAYER_VECTOR_SUCCESS, payload: {layerID: action.payload.layerID, PMTileURL: response.data }}) 
         console.log('pmtile url is fetched')
       }
     }

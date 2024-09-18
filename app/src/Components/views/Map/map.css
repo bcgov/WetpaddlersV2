@@ -5,7 +5,13 @@
   ); /* calculate height of the screen minus the heading */
 }
 
-.map {
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.mapContainer {
+  position: relative;
   width: 100%;
   height: 100%;
 }
