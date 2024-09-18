@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { MapContent } from './Map.style';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import LayerPicker from '../../LayerPicker/LayerPicker';
+import { useDispatch } from 'react-redux';
 // @ts-expect-error Override
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 // @ts-expect-error Override
@@ -18,7 +19,10 @@ const positionMarkerEl = document.createElement('div');
 positionMarkerEl.className = 'userTrackingMarker';
 positionMarkerEl.style.backgroundImage = 'url("/wheres-waldo-seeklogo.svg")';
 
-const Map = () => {
+
+const Map = (props: any) => {
+  const dispatch = useDispatch();
+  dispatch({ type: 'SET_LAYER', payload: 'Esri-Sat-LayerHD' });
   const mapCont = useRef<any>(null);
   const map = useRef<any>(null);
   const drawTools = useRef<any>(new MapboxDraw());

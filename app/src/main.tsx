@@ -1,10 +1,21 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
+import { setupStore } from './state/store.ts';
+import { CONFIG } from './state/config';
+import { Provider } from 'react-redux';
 import './index.css'
+let store: any;
+store = setupStore(CONFIG);
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+import(/* webpackChunkName: "app_config" */ './state/config').then(({ CONFIG }) => {
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+
+<Provider store={store}>
     <App />
-  </StrictMode>,
+    </Provider>
+  </React.StrictMode>
+)
+}
 )
