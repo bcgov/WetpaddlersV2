@@ -1,4 +1,4 @@
-import { ADD_LAYER, GET_DBC_LAYERS_SUCCESS, TOGGLE_LAYER, TOGGLE_LAYER_MODE } from '../actions';
+import { ADD_LAYER, GET_DBC_LAYERS_SUCCESS, LAYER_VECTOR_SUCCESS, TOGGLE_LAYER, TOGGLE_LAYER_MODE } from '../actions';
 import { AnyAction, createNextState } from '@reduxjs/toolkit';
 import { immerable } from 'immer';
 
@@ -44,6 +44,10 @@ function createMapStateReducer(
           if(!draftState.layersDict[action.payload.layerID].vectorToggle && draftState.layersDict[action.payload.layerID].pmTileURL !== null) {
             draftState.layersDict[action.payload.layerID].vectorToggle = true;
           }
+          return draftState;
+        case LAYER_VECTOR_SUCCESS: 
+          draftState.layersDict[action.payload.layerID].pmTileURL = action.payload.pmTileURL;
+          draftState.layersDict[action.payload.layerID].loading = false;
           return draftState;
         case GET_DBC_LAYERS_SUCCESS:
           action.payload.forEach((layer) => {
