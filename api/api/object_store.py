@@ -9,9 +9,10 @@ server = config("OBJECT_STORE_SERVER")
 user_id = config("OBJECT_STORE_USER_ID")
 secret_key = config("OBJECT_STORE_SECRET")
 bucket = config("OBJECT_STORE_BUCKET")
+folder = "wetpaddlersv2"
 
 
-async def push_to_object_store(name):
+async def push_to_object_store(path: str, name: str):
     session = get_session()
     async with session.create_client(
         "s3",
@@ -21,11 +22,9 @@ async def push_to_object_store(name):
     ) as client:
         logger.info("got s3 client")
         filename = f"{name}.pmtiles"
-        folder = "pmtiles"
         key = f"{folder}/{filename}"
-        "https://nrs.objectstore.gov.bc.ca/gpdqha/pmtiles/test.pmtiles"
         try:
-            with open("tippecanoe_output.pmtiles", "rb") as f:
+            with open(path, "rb") as f:
                 logger.info('Uploading file to "%s"', key)
                 now = datetime.now().isoformat()
                 resp = await client.put_object(
