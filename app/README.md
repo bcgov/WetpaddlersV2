@@ -48,3 +48,18 @@ export default tseslint.config({
   },
 })
 ```
+
+
+
+
+#### High level sequence for getting layers into vector:
+```mermaid
+sequenceDiagram
+    participant UI toggle vector mode
+    participant State
+    participant Backend
+UI toggle vector mode->>State: check if already have pmtile url
+State-->>Backend: don't have one, go get it!
+Backend-->> State: s3 URL once tiles gen'd
+State -->> UI map: show layer in WMS or vector depending on toggle (or spinner if loading)
+```
