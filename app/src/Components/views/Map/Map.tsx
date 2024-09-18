@@ -3,7 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import './map.css';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MapContent } from './Map.style';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import LayerPicker from '../../LayerPicker/LayerPicker';
@@ -16,21 +16,31 @@ MapboxDraw.constants.classes.CONTROL_GROUP = 'maplibregl-ctrl-group';
 
 const positionMarkerEl = document.createElement('div');
 positionMarkerEl.className = 'userTrackingMarker';
-positionMarkerEl.style.backgroundImage = 'url("/geo-alt-fill.svg")';
+positionMarkerEl.style.backgroundImage = 'url("/wheres-waldo-seeklogo.svg")';
 
 const Map = () => {
   const mapCont = useRef<any>(null);
   const map = useRef<any>(null);
   const drawTools = useRef<any>(new MapboxDraw());
-
+  const [lat, setLat] = useState<number>(-121);
+  const [long, setLong] = useState<number>(54);
+  const marker = new maplibregl.Marker({
+    element: positionMarkerEl,
+  });
   useEffect(() => {
     if (map.current) return;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLat(position?.coords?.latitude ?? -121);
+        setLong(position.coords.latitude ?? 54);
+      });
+    }
     map.current = new maplibregl.Map({
       container: mapCont.current,
       maxZoom: 18,
       zoom: 3,
       minZoom: 0,
-      center: [-121, 54],
+      center: [lat ?? -121, long ?? 54],
       style: {
         glyphs: 'https://fonts.openmaptiles.org/{fontstack}/{range}.pbf',
         version: 8,
@@ -54,13 +64,15 @@ const Map = () => {
         ],
       },
     }).addControl(drawTools.current, 'top-left');
-    new maplibregl.Marker({
-      element: positionMarkerEl,
-    })
-      .setLngLat([-121, 54])
-      .addTo(map.current);
-  });
 
+    marker.setLngLat([lat, long]);
+    marker.addTo(map.current);
+  });
+  useEffect(() => {
+    marker.remove();
+    marker.setLngLat([lat, long]);
+    marker.addTo(map.current);
+  }, [lat, long]);
   return (
     <CommonFullCont>
       <LayerPicker />

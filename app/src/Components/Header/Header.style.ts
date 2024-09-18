@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { headerHeight } from '../../assets/common-styles/common.styles';
 
 export const StyledHeader = styled.header`
+  color: #fff;
   width: 100%;
   z-index: 5;
   position: absolute;
