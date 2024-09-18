@@ -1,4 +1,4 @@
-import { ADD_LAYER, GET_DBC_LAYERS_SUCCESS, LAYER_VECTOR_SUCCESS, TOGGLE_LAYER, TOGGLE_LAYER_MODE } from '../actions';
+import { ADD_LAYER, CACHE_OFFLINE_MAP_SUCCESS, GET_DBC_LAYERS_SUCCESS, LAYER_VECTOR_SUCCESS, REQUEST_CACHE_OFFLINE_MAP, TOGGLE_LAYER, TOGGLE_LAYER_MODE } from '../actions';
 import { AnyAction, createNextState } from '@reduxjs/toolkit';
 import { immerable } from 'immer';
 
@@ -19,6 +19,12 @@ function createMapStateReducer(
   return (state = initialState, action) => {
     return createNextState(state, (draftState) => {
       switch (action.type) {
+        case REQUEST_CACHE_OFFLINE_MAP:
+          draftState.isCachingMap = true;
+          return draftState;
+        case CACHE_OFFLINE_MAP_SUCCESS:
+          draftState.isCachingMap = false;
+          return draftState;
         case TOGGLE_LAYER:
             draftState.layersDict[action.payload.layerID].toggle =
               !draftState.layersDict[action.payload.layerID].toggle;
@@ -61,6 +67,7 @@ function createMapStateReducer(
               title: layer.title,
               metadataLink: layer.metadataLink,
               pmTileURL: null,
+              localPMTileURL: null,
             };
             draftState.layersDict[layer.id] = newLayer;
           });

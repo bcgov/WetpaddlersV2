@@ -1,8 +1,11 @@
 import { all, put, call, takeEvery, select } from "redux-saga/effects";
 import {
+  CACHE_LAYER_SUCCESS,
+  CACHE_OFFLINE_MAP_SUCCESS,
   GET_DBC_LAYERS_REQUEST,
   GET_DBC_LAYERS_SUCCESS,
   LAYER_VECTOR_SUCCESS,
+  REQUEST_CACHE_OFFLINE_MAP,
   REQUEST_LAYER_VECTOR,
   TOGGLE_LAYER,
   TOGGLE_LAYER_MODE
@@ -87,13 +90,41 @@ function* handle_TOGGLE_LAYER_MODE(action) {
   }
 
 }
+
+
+async function getPMTILE_FILE(id, url) {
+ const response = await CapacitorHttp.get({url: url})
+ // write to disk here, get filepath
+ const filepath = ''
+ put({type: CACHE_LAYER_SUCCESS, payload: {id: id, localPMTileURL: filepath}})
+ return filepath
+}
+
+function* handle_REQUEST_CACHE_OFFLINE_MAP(action) {
+  // get all layers toggled on that also have a pmtileurl
+  const mapState = yield select((state) => state.MapState);
+  const layersToCache = Object.keys(mapState.layersDict).filter((layer) => {
+    return mapState.layersDict[layer].toggle && mapState.layersDict[layer].pmTileURL !== null;
+  });
+
+  const calls = []
+  
+  layersToCache.forEach(element => {
+    calls.push(call(getPMTILE_FILE,element, mapState.layersDict[element].pmTileURL))
+  });
+
+  yield all(calls);
+  yield put({type: CACHE_OFFLINE_MAP_SUCCESS})
+}
+
 function* MapSaga() {
   try {
     yield all([
       takeEvery(TOGGLE_LAYER_MODE, handle_TOGGLE_LAYER_MODE),
       takeEvery(REQUEST_LAYER_VECTOR, handle_REQUEST_LAYER_VECTOR),
       takeEvery(TOGGLE_LAYER, handle_TOGGLE_LAYER),
-      takeEvery(GET_DBC_LAYERS_REQUEST, handle_GET_DBC_LAYERS_REQUEST)
+      takeEvery(GET_DBC_LAYERS_REQUEST, handle_GET_DBC_LAYERS_REQUEST),
+      takeEvery(REQUEST_CACHE_OFFLINE_MAP, handle_REQUEST_CACHE_OFFLINE_MAP)
     ]);
   } catch (e) {
     console.log(e);
