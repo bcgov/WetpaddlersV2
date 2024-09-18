@@ -14,12 +14,11 @@ export const Row = styled.li`
   &:nth-of-type(odd) {
     background-color: #eee;
   }
-  button:nth-of-type(2) {
-    margin: 0 5pt;
+  button {
+    margin-right: 5pt;
   }
   button:last-child {
     margin-left: auto;
-    margin-right: 5pt;
   }
 `;
 

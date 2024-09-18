@@ -1,5 +1,4 @@
-import { useContext, useState } from 'react';
-import AppContext from '../../providers/context';
+import { useState } from 'react';
 import {
   ClosedLayerIcon,
   ClosedLayerToggle,
@@ -9,37 +8,13 @@ import {
   TopBar,
 } from './LayerPicker.style';
 import ListItem from './ListItem/ListItem';
+import { useSelector } from 'react-redux';
 
 const LayerPicker = () => {
-  const {
-    dataSetList: { capabilities },
-    layerPicker: { selectLayers, setSelectLayers },
-  } = useContext(AppContext);
-  if (!capabilities) throw Error('No Context provided');
-
+  const layersDict = useSelector((state: any) => state.MapState.layersDict);
   const [open, setOpen] = useState<boolean>(false);
 
-  const handleToggle = () => {
-    setOpen((prev) => !prev);
-  };
-
-  const handleSelectItem = (item: Record<string, any>) => {
-    const deleting = selectLayers.some(
-      (selectItem: Record<string, any>) =>
-        selectItem?.MetadataURL?._attributes === item?.MetadataURL?._attributes,
-    );
-    if (deleting) {
-      setSelectLayers((prev: Record<string, any>[]) =>
-        prev.filter(
-          (selectItem) =>
-            selectItem?.MetadataURL?._attributes !==
-            item.MetadataURL?._attributes,
-        ),
-      );
-    } else {
-      setSelectLayers((prev: Record<string, any>[]) => [item, ...prev]);
-    }
-  };
+  const handleToggle = () => setOpen((prev) => !prev);
 
   return (
     <>
@@ -57,13 +32,8 @@ const LayerPicker = () => {
           <ContentCont>
             <h2>Layers</h2>
             <ul>
-              {capabilities.map((item) => (
-                <ListItem
-                  key={item?.Name?.Title?._text ?? Math.random()}
-                  data={item}
-                  handleSelectItem={handleSelectItem}
-                  selectLayers={selectLayers}
-                />
+              {Object.keys(layersDict).map((id) => (
+                <ListItem key={id} stateKey={id} />
               ))}
             </ul>
           </ContentCont>
