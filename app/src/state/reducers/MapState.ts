@@ -20,10 +20,8 @@ function createMapStateReducer(
     return createNextState(state, (draftState) => {
       switch (action.type) {
         case TOGGLE_LAYER:
-          if (!draftState.layersDict[action.payload.layerID]) {
             draftState.layersDict[action.payload.layerID].toggle =
               !draftState.layersDict[action.payload.layerID].toggle;
-          }
           return draftState;
         case ADD_LAYER:
           draftState.layersDict[action.payload.layerID] = {

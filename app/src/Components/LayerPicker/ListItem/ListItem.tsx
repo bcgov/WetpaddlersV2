@@ -43,10 +43,10 @@ const ListItem = ({ stateKey }: PropTypes) => {
 
   return (
     <Row key={entry.title}>
-      <ToggleLayerButton clickHandler={toggleLayerVis} toggledOn={entry} />
+      <ToggleLayerButton clickHandler={toggleLayerVis} toggledOn={entry.toggle} />
       <ToggleVectorWmsButton
         clickHandler={toggleLayerMode}
-        toggledOn={entry.toggle}
+        toggledOn={entry.vectorToggle}
       />
       {MOBILE && (
         <CachedButton

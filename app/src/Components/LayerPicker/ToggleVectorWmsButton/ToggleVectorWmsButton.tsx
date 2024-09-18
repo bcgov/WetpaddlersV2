@@ -7,7 +7,7 @@ type PropTypes = {
 const ToggleVectorWmsButton = ({ clickHandler, toggledOn }: PropTypes) => {
   return (
     <ListButton title="Toggle WMS / Vector Layers" onClick={clickHandler}>
-      {toggledOn ? ' WMS' : ' VEC'}
+      {toggledOn ? ' VEC' : 'WMS'}
     </ListButton>
   );
 };
