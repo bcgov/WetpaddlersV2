@@ -11,13 +11,19 @@ import AppContext from './providers/context';
 
 const App = () => {
   const [tab, setTab] = useState<Views>(Views.E);
-  const [contextExample, setContextExample] = useState<string>('Hi');
+  const [contextExample, setContextExample] = useState<string>();
+  const [capabilities, setCapabilities] = useState([]);
   const handleViewChange = (view: Views) => setTab(view);
-
   return (
-    <AppContext.Provider value={{ contextExample, setContextExample }}>
+    <AppContext.Provider
+      value={{
+        contextExample,
+        setContextExample,
+        dataSetList: { capabilities, setCapabilities },
+      }}
+    >
       <Header toggleTab={handleViewChange} />
-      {tab === Views.B && <Map />}
+      {tab === Views.Map && <Map />}
       {tab === Views.DatasetList && <DatasetList />}
       {tab === Views.C && <ComponentC />}
       {tab === Views.D && <ComponentD />}
