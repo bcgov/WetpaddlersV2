@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import AppContext from '../../providers/context';
-import LayerItem from '../../interfaces/LayerItem';
+
 import {
   CheckBox,
   ClosedLayerIcon,
@@ -12,44 +12,35 @@ import {
   TopBar,
 } from './LayerPicker.style';
 
-// TODO: Hook to Context, refactor to API Data, Remove this
-const temp: LayerItem[] = [
-  { title: 'TempA', url: 'https://www2.gov.bc.ca/gov/content/home' },
-  { title: 'TempB', url: 'https://www2.gov.bc.ca/gov/content/careers-myhr' },
-  {
-    title: 'TempC',
-    url: 'https://www2.gov.bc.ca/gov/content/home/forms-a-z',
-  },
-  {
-    title: 'TempD',
-    url: 'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services',
-  },
-  { title: 'TempE', url: 'https://news.gov.bc.ca/' },
-];
-
 const LayerPicker = () => {
-  const context = useContext(AppContext);
-  if (!context) throw Error('No Context provided');
+  const {
+    dataSetList: { capabilities },
+    layerPicker: { selectLayers, setSelectLayers },
+  } = useContext(AppContext);
+  if (!capabilities) throw Error('No Context provided');
   const [open, setOpen] = useState<boolean>(false);
 
   // Hook up to Context
-  const [fetchedLayers] = useState<LayerItem[]>(temp);
-  const [selectLayers, setSelectLayers] = useState<LayerItem[]>([]);
 
   const handleToggle = () => {
     setOpen((prev) => !prev);
   };
 
-  const handleSelectItem = (item: LayerItem) => {
+  const handleSelectItem = (item: Record<string, any>) => {
     const deleting = selectLayers.some(
-      (selectItem: Record<string, any>) => selectItem.url === item.url,
+      (selectItem: Record<string, any>) =>
+        selectItem?.MetadataURL?._attributes === item?.MetadataURL?._attributes,
     );
     if (deleting) {
-      setSelectLayers((prev) =>
-        prev.filter((selectItem) => selectItem.url !== item.url),
+      setSelectLayers((prev: Record<string, any>[]) =>
+        prev.filter(
+          (selectItem) =>
+            selectItem?.MetadataURL?._attributes !==
+            item.MetadataURL?._attributes,
+        ),
       );
     } else {
-      setSelectLayers((prev) => [item, ...prev]);
+      setSelectLayers((prev: Record<string, any>[]) => [item, ...prev]);
     }
   };
 
@@ -69,16 +60,18 @@ const LayerPicker = () => {
           <ContentCont>
             <h2>Layers</h2>
             <ul>
-              {fetchedLayers.map((item) => (
-                <ListItem key={item.url}>
+              {capabilities.map((item) => (
+                <ListItem key={item?.Name?.Title?._text ?? Math.random()}>
                   <CheckBox
                     type="checkbox"
                     onChange={handleSelectItem.bind(this, item)}
                     checked={selectLayers.some(
-                      (selectItem) => selectItem.url === item.url,
+                      (selectItem) =>
+                        selectItem?.MetadataURL?._attributes ===
+                        item?.MetadataURL?._attributes,
                     )}
                   ></CheckBox>
-                  {item.title}
+                  {item?.Title?._text ?? 'Name not provided'}
                 </ListItem>
               ))}
             </ul>

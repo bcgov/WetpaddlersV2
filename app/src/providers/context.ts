@@ -5,7 +5,11 @@ type AppContextType = {
   setContextExample?: (val: string) => void;
   dataSetList: {
     capabilities: Record<string, any>[];
-    setCapabilities: (data: Record<string, any>) => void;
+    setCapabilities: Function;
+  };
+  layerPicker: {
+    selectLayers: Record<string, any>[];
+    setSelectLayers: Function;
   };
 };
 const AppContext = createContext<AppContextType | null>(null);

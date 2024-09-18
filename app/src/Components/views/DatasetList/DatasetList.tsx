@@ -33,7 +33,6 @@ const DatasetList = () => {
       {capabilities.map((dataset) => {
         let metadataLink;
         try {
-          console.log(dataset);
           metadataLink = (
             <a href={dataset['MetadataURL']['_attributes']['xlink:href']}>
               DataBC link

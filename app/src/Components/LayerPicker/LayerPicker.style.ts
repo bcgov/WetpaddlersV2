@@ -29,10 +29,12 @@ export const ClosedLayerIcon = styled.img`
 `;
 
 export const MainCont = styled.div`
-  position: absolute;
   z-index: ${absPosition.z};
   right: ${absPosition.x};
   top: ${absPosition.y};
+  position: absolute;
+  border-radius: 8pt;
+  overflow: hidden;
   box-sizing: border-box;
   height: 300pt;
   width: 300pt;
@@ -40,13 +42,13 @@ export const MainCont = styled.div`
 `;
 
 export const ContentCont = styled.div`
-  padding: 5pt 15pt;
   height: 80%;
   overflow-y: auto;
   color: black;
   & > h2 {
     text-align: left;
     margin-bottom: 5pt;
+    padding-left: 1rem;
   }
   & > ul {
     list-style-type: none;
@@ -77,11 +79,18 @@ export const ClosePickerButton = styled.button`
 export const ListItem = styled.li`
   width: 100%;
   display: flex;
+  text-wrap: wrap;
+  padding: 3pt;
+  font-size: 12pt;
+  text-align: left;
   justify-content: flex-start;
+  &:nth-of-type(odd) {
+    background-color: #ddd;
+  }
 `;
 
 export const CheckBox = styled.input`
-  height: 20pt;
-  width: 20pt;
+  min-height: 20pt;
+  min-width: 20pt;
   margin-right: 1rem;
 `;
