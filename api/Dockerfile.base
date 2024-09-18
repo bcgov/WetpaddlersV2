@@ -1,4 +1,4 @@
-FROM DOCKER_IMAGE=artifacts.developer.gov.bc.ca/docker-remote/ubuntu:22.04
+FROM artifacts.developer.gov.bc.ca/docker-remote/ubuntu:22.04
 
 # We don't want to run our app as root, so we define a worker user.
 ARG USERNAME=worker
