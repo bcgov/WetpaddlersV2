@@ -22,4 +22,4 @@ RUN poetry install
 
 # Run your app
 expose 8000
-CMD [ "poetry", "run", "uvicorn", "api.main:app", "--reload" ]
+CMD [ "poetry", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload" ]
