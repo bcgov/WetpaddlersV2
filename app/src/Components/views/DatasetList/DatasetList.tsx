@@ -1,4 +1,5 @@
 import { useContext, useEffect } from 'react';
+import { CapacitorHttp } from '@capacitor/core';
 import { CommonFullCont } from '../../../assets/common-styles/common.styles';
 import { xml2js } from 'xml-js';
 import AppContext from '../../../providers/context';
@@ -15,9 +16,9 @@ const DatasetList = () => {
 
   useEffect(() => {
     async function fetchCapabilities() {
-      const response = await fetch(url);
+      const response = await CapacitorHttp.get({url: url});
       try {
-        const body = await response.text();
+        const body = await response.data;
         const capabilities = xml2js(body, { compact: true })[
           'wfs:WFS_Capabilities'
         ]['FeatureTypeList']['FeatureType'];
