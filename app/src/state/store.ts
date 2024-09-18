@@ -5,6 +5,7 @@ import { createRootReducer } from './reducers';
 import { createLogger } from 'redux-logger';
 import { AppConfig } from './config';
 import MapSaga from './sagas/MapSaga';
+import { GET_DBC_LAYERS_REQUEST } from './actions';
 
 const setupStore = (configuration: AppConfig) => {
   const logger = createLogger({
@@ -24,9 +25,7 @@ const setupStore = (configuration: AppConfig) => {
   }
 
   sagaMiddleware.run(MapSaga);
-
-    yield put({ type: GET_DBC_LAYERS_REQUEST });
-
+  store.dispatch({ type: GET_DBC_LAYERS_REQUEST });
 
   return store;
 };

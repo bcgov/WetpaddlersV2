@@ -26,12 +26,14 @@ function* handle_GET_DBC_LAYERS_REQUEST() {
         'wfs:WFS_Capabilities'
       ]['FeatureTypeList']['FeatureType'];
 
+      console.dir(capabilities)
+
       const returnVal = capabilities.map((dataset, index) => { 
         return { 
               id: index,
-              title: dataset['Title']['_text'],
-              name: dataset['Name']['_text'].slice(4),
-              metadataLink: dataset['MetadataURL']['_attributes']['xlink:href']
+              title: dataset['Title']?.['_text'],
+              name: dataset['Name']?.['_text']?.slice(4),
+              metadataLink: dataset['MetadataURL']?.['_attributes']?.['xlink:href']
           }
         })
 
