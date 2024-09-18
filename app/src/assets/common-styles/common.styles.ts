@@ -8,5 +8,6 @@ export const CommonFullCont = styled.div`
   height: calc(100vh - ${headerHeight});
   justify-content: center;
   flex-direction: column;
+  box-sizing: border-box;
   align-items: center;
 `;
