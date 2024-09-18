@@ -98,3 +98,20 @@ export const ListButtonIcon = styled.img`
   height: 80%;
   width: 80%;
 `;
+
+export const TextInput = styled.input`
+  height: 25pt;
+  font-size: 14pt;
+  width: 250pt;
+  border: 1pt solid black;
+  border-radius: 4pt;
+  padding-left: 1rem;
+
+  &:focus {
+    outline: none;
+    border: 1pt solid black;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+`;
