@@ -19,25 +19,18 @@ const positionMarkerEl = document.createElement('div');
 positionMarkerEl.className = 'userTrackingMarker';
 positionMarkerEl.style.backgroundImage = 'url("/wheres-waldo-seeklogo.svg")';
 
-
-const Map = (props: any) => {
+const Map = () => {
   const dispatch = useDispatch();
   const mapCont = useRef<any>(null);
   const map = useRef<any>(null);
   const drawTools = useRef<any>(new MapboxDraw());
-  const [lat, setLat] = useState<number>(-121);
-  const [long, setLong] = useState<number>(54);
+  const [lat] = useState<number>(-121);
+  const [long] = useState<number>(54);
   const marker = new maplibregl.Marker({
     element: positionMarkerEl,
   });
   useEffect(() => {
     if (map.current) return;
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setLat(position?.coords?.latitude ?? -121);
-        setLong(position.coords.latitude ?? 54);
-      });
-    }
     map.current = new maplibregl.Map({
       container: mapCont.current,
       maxZoom: 18,
@@ -71,11 +64,6 @@ const Map = (props: any) => {
     marker.setLngLat([lat, long]);
     marker.addTo(map.current);
   });
-  useEffect(() => {
-    marker.remove();
-    marker.setLngLat([lat, long]);
-    marker.addTo(map.current);
-  }, [lat, long]);
   return (
     <CommonFullCont>
       <LayerPicker />
