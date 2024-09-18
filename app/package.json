@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite --host --cache=false"
+    "preview": "vite --host"
   },
   "dependencies": {
     "@capacitor/android": "^6.1.2",
