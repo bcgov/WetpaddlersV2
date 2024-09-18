@@ -35,12 +35,15 @@ function createMapStateReducer(
           if(!draftState.layersDict[action.payload.layerID].vectorToggle && draftState.layersDict[action.payload.layerID].pmTileURL === null) {
             draftState.layersDict[action.payload.layerID].vectorToggle = true;
             draftState.layersDict[action.payload.layerID].loading = true;
+            return draftState;
           }
           if(draftState.layersDict[action.payload.layerID].vectorToggle) {
             draftState.layersDict[action.payload.layerID].vectorToggle = false;
+            return draftState;
           }
           if(!draftState.layersDict[action.payload.layerID].vectorToggle && draftState.layersDict[action.payload.layerID].pmTileURL !== null) {
             draftState.layersDict[action.payload.layerID].vectorToggle = true;
+            return draftState;
           }
           return draftState;
         case LAYER_VECTOR_SUCCESS: 

@@ -22,7 +22,6 @@ positionMarkerEl.style.backgroundImage = 'url("/wheres-waldo-seeklogo.svg")';
 
 const Map = (props: any) => {
   const dispatch = useDispatch();
-  dispatch({ type: 'SET_LAYER', payload: 'Esri-Sat-LayerHD' });
   const mapCont = useRef<any>(null);
   const map = useRef<any>(null);
   const drawTools = useRef<any>(new MapboxDraw());
