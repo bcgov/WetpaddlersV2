@@ -72,6 +72,6 @@ async def wfs_get_feature_info_with_filter(layer: str, bbox: str):
 @app.post("/create_pm_tiles")
 async def create_pm_tiles(req: dict):
     pm_tiles_key = await create_pm_tiles_for_layer(
-        req.get("layer"), req.get("title"), req.get("bbox", None)
+        req.get("layer"), req.get("bbox", None)
     )
     return {"s3_key": pm_tiles_key}

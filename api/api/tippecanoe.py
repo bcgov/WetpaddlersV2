@@ -3,8 +3,10 @@ import subprocess
 
 
 def process_geojson(feature_collection: dict, temp_dir: str):
+    input_fname = f"{temp_dir}/tippecanoe_input.json"
+    output_fname = f"{temp_dir}/tippecanoe_output.pmtiles"
     try:
-        with open(f"{temp_dir}/tippecanoe_input.json", "w") as f:
+        with open(input_fname, "w") as f:
             f.write(json.dumps(feature_collection))
     except Exception as e:
         print(e)
@@ -13,23 +15,14 @@ def process_geojson(feature_collection: dict, temp_dir: str):
             [
                 "tippecanoe",
                 "-zg",
-                f"{temp_dir}/tippecanoe_input.json",
-                f"--output={temp_dir}/tippecanoe_output.mbtiles",
+                f"{input_fname}",
+                f"--output={output_fname}",
                 "--no-tile-compression",
                 "--force",
             ],
             check=True,
         )
-        subprocess.run(
-            [
-                "pmtiles",
-                "convert",
-                f"{temp_dir}/tippecanoe_output.mbtiles",
-                f"{temp_dir}/tippecanoe_output.pmtiles",
-            ],
-            check=True,
-        )
-        return f"{temp_dir}/tippecanoe_output.pmtiles"
+        return output_fname
     except Exception as e:
         print("error creating pm tiles")
         print(e)

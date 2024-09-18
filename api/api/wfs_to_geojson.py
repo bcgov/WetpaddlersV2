@@ -51,7 +51,6 @@ def get_geojson_from_wfs(layer: str, bbox: list[float] = None) -> dict:
     Sample request URL: https://openmaps.gov.bc.ca/geo/pub/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP&bbox=-139.06,48.3,-114.03,50.0,EPSG:4326&outputFormat=json&count=1
     """
     wfs_url = build_get_feature_url(layer, bbox)
-    wfs_url += "&count=1"
     try:
         response = http.request("GET", wfs_url)
         geojson = response.json()

@@ -20,6 +20,10 @@ WORKDIR /api
 COPY . /api
 RUN poetry install
 
+# Install tippecanoe for pmtiles
+RUN git clone https://github.com/felt/tippecanoe.git && cd tippecanoe && make -j && make install && cd ..
+
+
 # Run your app
 expose 8000
 CMD [ "poetry", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload" ]
