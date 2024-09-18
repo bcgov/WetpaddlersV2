@@ -3,10 +3,10 @@ import './App.css';
 import Header from './Components/Header/Header';
 import Views from './interfaces/Views';
 import DatasetList from './Components/DatasetList/DatasetList';
-import Map from './Components/Map/Map';
-import ComponentC from './Components/ComponentC/ComponentC';
-import ComponentD from './Components/ComponentD/ComponentD';
-import ComponentE from './Components/ComponentE/ComponentE';
+import Map from './Components/views/Map/Map';
+import ComponentC from './Components/views/ComponentC/ComponentC';
+import ComponentD from './Components/views/ComponentD/ComponentD';
+import ComponentE from './Components/views/ComponentE/ComponentE';
 import AppContext from './providers/context';
 
 const App = () => {

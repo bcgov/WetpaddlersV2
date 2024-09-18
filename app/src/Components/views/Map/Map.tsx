@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { CommonFullCont } from '../../assets/common-styles/common.styles';
+import { CommonFullCont } from '../../../assets/common-styles/common.styles';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
@@ -7,7 +6,7 @@ import './map.css';
 import { useEffect, useRef } from 'react';
 import { MapContent } from './Map.style';
 import MapboxDraw from '@mapbox/mapbox-gl-draw';
-import LayerPicker from '../LayerPicker/LayerPicker';
+import LayerPicker from '../../LayerPicker/LayerPicker';
 // @ts-expect-error Override
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 // @ts-expect-error Override
