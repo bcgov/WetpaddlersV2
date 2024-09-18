@@ -1,4 +1,4 @@
-import { TOGGLE_LAYER } from '../actions';
+import { ADD_LAYER, TOGGLE_LAYER } from '../actions';
 import { AnyAction, createNextState } from '@reduxjs/toolkit';
 import { immerable } from "immer";
 
@@ -7,7 +7,12 @@ import { AppConfig } from '../config';
 class MapState {
   [immerable] = true;
   layersDict: {
-    test: boolean;
+    stubLayerID: {
+      toggle: boolean;
+      vectorToggle: boolean;
+      cached: boolean;
+      loading: boolean;
+    }
   };
 }
 const initialState = new MapState();
@@ -17,8 +22,18 @@ function createMapStateReducer(configuration: AppConfig): (MapState, AnyAction) 
     return createNextState(state, (draftState) => {
       switch (action.type) {
         case TOGGLE_LAYER:
-         //#draftState.layersDict[action.payload.layerID] =
-         //   !draftState.layersDict[action.payload.layerID];
+          if(!draftState.layersDict[action.payload.layerID]) {
+            draftState.layersDict[action.payload.layerID].toggle =
+            !draftState.layersDict[action.payload.layerID].toggle;
+          }
+          return draftState;
+        case ADD_LAYER:
+          draftState.layersDict[action.payload.layerID] = {
+            toggle: false,
+            vectorToggle: false,
+            cached: false,
+            loading: false
+          };
           return draftState;
         default:
           return state;
