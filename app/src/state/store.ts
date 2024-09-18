@@ -25,6 +25,8 @@ const setupStore = (configuration: AppConfig) => {
 
   sagaMiddleware.run(MapSaga);
 
+    yield put({ type: GET_DBC_LAYERS_REQUEST });
+
 
   return store;
 };
