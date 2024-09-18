@@ -1,4 +1,4 @@
-import { ADD_LAYER, TOGGLE_LAYER } from '../actions';
+import { ADD_LAYER, GET_DBC_LAYERS_SUCCESS, TOGGLE_LAYER } from '../actions';
 import { AnyAction, createNextState } from '@reduxjs/toolkit';
 import { immerable } from "immer";
 
@@ -34,6 +34,19 @@ function createMapStateReducer(configuration: AppConfig): (MapState, AnyAction) 
             cached: false,
             loading: false
           };
+          return draftState;
+        case GET_DBC_LAYERS_SUCCESS:
+          action.payload.forEach((layer) => {
+            draftState.layersDict[layer.id] = {
+              toggle: false,
+              vectorToggle: false,
+              cached: false,
+              loading: false,
+              name: layer.name,
+              title: layer.title,
+              metadataLink: layer.metadataLink
+            };
+          });
           return draftState;
         default:
           return state;
