@@ -1,54 +1,27 @@
-import { useContext, useEffect } from 'react';
-import { CapacitorHttp } from '@capacitor/core';
+import { useSelector } from 'react-redux';
 import { CommonFullCont } from '../../../assets/common-styles/common.styles';
-import { xml2js } from 'xml-js';
-import AppContext from '../../../providers/context';
 import { ContentBox } from './DatasetList.style';
 
-const url =
-  'https://openmaps.gov.bc.ca/geo/pub/ows?service=WFS&request=GetCapabilities&AcceptFormats=application/json';
-
 const DatasetList = () => {
-  const {
-    dataSetList: { capabilities, setCapabilities },
-  } = useContext(AppContext);
-  if (!capabilities) throw Error('Context not provided in scope');
-
-  useEffect(() => {
-    async function fetchCapabilities() {
-      const response = await CapacitorHttp.get({url: url});
-      try {
-        const body = await response.data;
-        const capabilities = xml2js(body, { compact: true })[
-          'wfs:WFS_Capabilities'
-        ]['FeatureTypeList']['FeatureType'];
-        setCapabilities(capabilities);
-      } catch {
-        throw Error('Error fetching GeoBC WFS capabilities');
-      }
-    }
-    fetchCapabilities();
-  }, []);
+  const layersDict = useSelector((state: any) => state.MapState.layersDict);
 
   return (
     <CommonFullCont>
       <ContentBox>
-        {capabilities.map((dataset) => {
+        {Object.keys(layersDict).map((id) => {
           let metadataLink;
           try {
             metadataLink = (
-              <a href={dataset['MetadataURL']['_attributes']['xlink:href']}>
-                DataBC link
-              </a>
+              <a href={layersDict[id].metadataLink}>DataBC link</a>
             );
           } catch {
             metadataLink = '';
           }
           return (
-            <p key={dataset?.Title?._text ?? Math.random()}>
-              {dataset['Title']['_text']}
+            <p key={layersDict.id}>
+              {layersDict[id].title}
               <br />
-              {dataset['Name']['_text'].slice(4)}
+              {layersDict[id].name}
               <br />
               {metadataLink}
             </p>
