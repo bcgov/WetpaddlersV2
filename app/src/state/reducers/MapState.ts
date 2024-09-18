@@ -1,4 +1,4 @@
-import { ADD_LAYER, GET_DBC_LAYERS_SUCCESS, TOGGLE_LAYER } from '../actions';
+import { ADD_LAYER, GET_DBC_LAYERS_SUCCESS, TOGGLE_LAYER, TOGGLE_LAYER_MODE } from '../actions';
 import { AnyAction, createNextState } from '@reduxjs/toolkit';
 import { immerable } from 'immer';
 
@@ -33,6 +33,18 @@ function createMapStateReducer(
             loading: false,
           };
           return draftState;
+        case TOGGLE_LAYER_MODE:
+          if(!draftState.layersDict[action.payload.layerID].vectorToggle && draftState.layersDict[action.payload.layerID].pmTileURL === null) {
+            draftState.layersDict[action.payload.layerID].vectorToggle = true;
+            draftState.layersDict[action.payload.layerID].loading = true;
+          }
+          if(draftState.layersDict[action.payload.layerID].vectorToggle) {
+            draftState.layersDict[action.payload.layerID].vectorToggle = false;
+          }
+          if(!draftState.layersDict[action.payload.layerID].vectorToggle && draftState.layersDict[action.payload.layerID].pmTileURL !== null) {
+            draftState.layersDict[action.payload.layerID].vectorToggle = true;
+          }
+          return draftState;
         case GET_DBC_LAYERS_SUCCESS:
           action.payload.forEach((layer) => {
             const newLayer = {
@@ -43,6 +55,7 @@ function createMapStateReducer(
               name: layer.name,
               title: layer.title,
               metadataLink: layer.metadataLink,
+              pmTileURL: null,
             };
             draftState.layersDict[layer.id] = newLayer;
           });
