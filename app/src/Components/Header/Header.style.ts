@@ -16,7 +16,7 @@ export const StyledHeader = styled.header`
   padding-left: 1em;
   border-bottom: 1pt solid black;
   h1 {
-    font-size: 20pt;
+    font-size: min(2em, 3.5vw);
     margin: 0;
   }
   button:last-child {
@@ -36,7 +36,7 @@ export const StyledUl = styled.ul`
   display: flex;
 `;
 export const StyledLi = styled.li`
-  margin-left: 1rem;
+  margin-left: min(18pt, 4vw);
   font-size: 18pt;
   &:hover {
     cursor: pointer;
