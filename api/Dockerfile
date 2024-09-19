@@ -1,4 +1,4 @@
-from python:3.11
+FROM image-registry.openshift-image-registry.svc:5000/cf52af-tools/wetpaddlersapibase:latest
 
 # Configure Poetry
 ENV POETRY_VERSION=1.2.0
@@ -19,10 +19,6 @@ WORKDIR /api
 # Install dependencies
 COPY . /api
 RUN poetry install
-
-# Install tippecanoe for pmtiles
-RUN git clone https://github.com/felt/tippecanoe.git --branch 2.29.0 && cd tippecanoe && make -j && make install && cd ..
-
 
 # Run your app
 expose 8000
