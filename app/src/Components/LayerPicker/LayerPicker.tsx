@@ -27,16 +27,12 @@ const LayerPicker = () => {
   const filterRules = (test: Record<string, any>): boolean => {
     const title = test.title.toLowerCase();
     const testfilter = filter.toLowerCase();
-    if (!visibleLayersFilter && (!testfilter || title.includes(testfilter))) {
-      return true;
-    } else if (
-      visibleLayersFilter &&
-      test.toggle &&
-      (!testfilter || title.includes(filter))
-    ) {
-      return true;
-    }
-    return false;
+    return (
+      (!visibleLayersFilter && (!testfilter || title.includes(testfilter))) ||
+      (visibleLayersFilter &&
+        test.toggle &&
+        (!testfilter || title.includes(filter)))
+    );
   };
   return (
     <>
