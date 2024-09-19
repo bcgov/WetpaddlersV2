@@ -4,7 +4,9 @@ import {
   MapLibreMap,
   MlImageMarkerLayer,
   MlMarker,
+  MlVectorTileLayer,
   MlWmsLayer,
+  useAddProtocol,
   useMap,
 } from '@mapcomponents/react-maplibre';
 import WarningModal from '../../WarningModal/WarningModal';
@@ -28,6 +30,8 @@ const positionMarkerEl = document.createElement('div');
 positionMarkerEl.className = 'userTrackingMarker';
 positionMarkerEl.style.backgroundImage = 'url("/wheres-waldo-seeklogo.svg")';
 
+let protocol = new Protocol();
+
 const Map = (props: any) => {
   const dispatch = useDispatch();
   const layerDict = useSelector((state: any) => state.MapState.layersDict);
@@ -38,6 +42,12 @@ const Map = (props: any) => {
     element: positionMarkerEl,
   });
 
+  useAddProtocol({
+    protocol: 'pmtiles',
+    handler: protocol.tile,
+  });
+
+  /*
   useEffect(() => {
     const protocol = new Protocol();
     maplibregl.addProtocol('pmtiles', (request) => {
@@ -82,6 +92,7 @@ const Map = (props: any) => {
       });
     });
   }, [map]);
+  */
 
   return (
     <CommonFullCont>
@@ -117,6 +128,28 @@ const Map = (props: any) => {
               />
             );
           })}
+        <MlVectorTileLayer
+          sourceOptions={{
+            type: 'vector',
+            url: 'https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles',
+          }}
+          layers={[
+            {
+              id: 'invasivesbc-pmtile-vector',
+              type: 'circle',
+              source: 'pmtiles',
+              'source-layer': 'invasives',
+              layout: {
+                visibility: 'visible',
+              },
+              paint: { 'circle-color': '#0905f5', 'circle-opacity': 1.0 },
+              maxzoom: 28,
+            },
+          ]}
+          url={
+            'pmtiles://https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles'
+          }
+        />
       </MapContent>
     </CommonFullCont>
   );
