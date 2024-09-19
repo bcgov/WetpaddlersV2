@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { colors } from '../../constants';
 
 const absPosition = {
   x: '25pt',
@@ -67,7 +68,8 @@ export const TopBar = styled.div`
   justify-content: flex-end;
   width: 100%;
   height: 40pt;
-  background-color: #fed;
+  background-color: ${colors.bcBlue};
+  border-bottom: 2pt solid ${colors.bcYellow};
 `;
 
 export const ClosePickerButton = styled.button`

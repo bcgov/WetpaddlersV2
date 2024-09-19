@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { headerHeight } from '../../assets/common-styles/common.styles';
+import { colors } from '../../constants';
 
 export const StyledHeader = styled.header`
   color: #fff;
@@ -9,12 +10,12 @@ export const StyledHeader = styled.header`
   top: 0;
   left: 0;
   box-sizing: border-box;
-  background-color: #333;
+  background-color: ${colors.bcBlue};
   display: flex;
   align-items: center;
   height: ${headerHeight};
   padding-left: 1em;
-  border-bottom: 1pt solid black;
+  border-bottom: 1pt solid ${colors.bcYellow};
   h1 {
     font-size: min(2em, 3.5vw);
     margin: 0;
