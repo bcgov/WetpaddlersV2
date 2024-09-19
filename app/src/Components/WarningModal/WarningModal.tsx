@@ -8,13 +8,14 @@ import {
   Modal,
   TextContent,
 } from './WarningModal.style';
-import { TOGGLE_WARNING_MESSAGE } from '../../state/actions';
+import { SET_DEFAULT_SHAPE, TOGGLE_WARNING_MESSAGE } from '../../state/actions';
 
 const WarningModal = () => {
   const show = useSelector((state: any) => state.MapState.showWarning);
   const dispatch = useDispatch();
   const handleModalClose = () => {
     dispatch({ type: TOGGLE_WARNING_MESSAGE });
+    dispatch({ type: SET_DEFAULT_SHAPE });
   };
   return (
     <>

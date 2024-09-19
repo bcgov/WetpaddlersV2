@@ -43,7 +43,8 @@ export const MainCont = styled.div`
   border-radius: 8pt;
   box-sizing: border-box;
   height: calc(95vh - 60pt);
-  width: 80vw;
+  width: 625pt;
+  max-width: 95%;
   background-color: white;
 `;
 

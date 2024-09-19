@@ -119,7 +119,10 @@ function* handle_TOGGLE_LAYER_MODE(action) {
   console.log('side effect happening');
   const mapState = yield select((state) => state.MapState);
   // Add logic to determine if warning needed
-  // yield put({ type: TOGGLE_WARNING_MESSAGE });
+  if (!mapState.filterShape) {
+    yield put({ type: TOGGLE_WARNING_MESSAGE });
+    return;
+  }
 
   if (
     mapState.layersDict[action.payload.layerID].vectorToggle &&

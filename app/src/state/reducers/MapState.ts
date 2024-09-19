@@ -4,6 +4,7 @@ import {
   GET_DBC_LAYERS_SUCCESS,
   LAYER_VECTOR_SUCCESS,
   REQUEST_CACHE_OFFLINE_MAP,
+  SET_DEFAULT_SHAPE,
   TOGGLE_LAYER,
   TOGGLE_LAYER_MODE,
   TOGGLE_WARNING_MESSAGE,
@@ -17,25 +18,11 @@ class MapState {
   [immerable] = true;
   layersDict: any;
   showWarning: boolean;
-  filterShape: Record<string, any>;
+  filterShape: Record<string, any> | null;
   constructor() {
     this.layersDict = {};
     this.showWarning = false;
-    this.filterShape = {
-      type: 'Feature',
-      geometry: {
-        coordinates: [
-          [
-            [-128.5393998302764, 50.9178083352341],
-            [-123.08776009294597, 50.9178083352341],
-            [-123.08776009294597, 48.24248360602138],
-            [-128.5393998302764, 48.24248360602138],
-            [-128.5393998302764, 50.9178083352341],
-          ],
-        ],
-        type: 'Polygon',
-      },
-    };
+    this.filterShape = null;
   }
 }
 const initialState = new MapState();
@@ -65,6 +52,9 @@ function createMapStateReducer(
           };
           return draftState;
         case TOGGLE_LAYER_MODE:
+          if (!draftState.filterShape) {
+            return;
+          }
           if (
             !draftState.layersDict[action.payload.layerID].vectorToggle &&
             draftState.layersDict[action.payload.layerID].pmTileURL === null
@@ -87,6 +77,23 @@ function createMapStateReducer(
           return draftState;
         case TOGGLE_WARNING_MESSAGE:
           draftState.showWarning = !draftState.showWarning;
+          break;
+        case SET_DEFAULT_SHAPE:
+          draftState.filterShape = {
+            type: 'Feature',
+            geometry: {
+              coordinates: [
+                [
+                  [-128.5393998302764, 50.9178083352341],
+                  [-123.08776009294597, 50.9178083352341],
+                  [-123.08776009294597, 48.24248360602138],
+                  [-128.5393998302764, 48.24248360602138],
+                  [-128.5393998302764, 50.9178083352341],
+                ],
+              ],
+              type: 'Polygon',
+            },
+          };
           break;
         case LAYER_VECTOR_SUCCESS:
           draftState.layersDict[action.payload.layerID].pmTileURL =
