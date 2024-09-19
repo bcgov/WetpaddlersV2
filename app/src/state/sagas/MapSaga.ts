@@ -14,7 +14,7 @@ import {
 import { CapacitorHttp } from '@capacitor/core';
 import { xml2js } from 'xml-js';
 
-const API_URL = import.meta.env.VITE_API_ENDPOINT;
+const API_URL = "https://wetpaddlerapi-cf52af-dev.apps.silver.devops.gov.bc.ca"
 const DBC_API_BASE_URL =
   'https://openmaps.gov.bc.ca/geo/pub/ows?service=WFS&request=GetCapabilities&AcceptFormats=application/json';
 
@@ -38,7 +38,6 @@ async function get_PMTILE_URL(id, layerNameInDBC, filterShape) {
   const response = await CapacitorHttp.post({
     url: API_URL + '/api/v1/create_pm_tiles',
     data: payload,
-    headers: { 'content-type': 'application/json' },
   });
   return response;
 }
@@ -74,14 +73,10 @@ function* handle_REQUEST_LAYER_VECTOR(action) {
     boundingBox,
   );
   if (response.status === 200) {
-    console.log(response.data.s3_key);
-
+    console.log(response);
     yield put({
       type: LAYER_VECTOR_SUCCESS,
-      payload: {
-        layerID: action.payload.layerID,
-        pmTileURL: response.data.s3_key,
-      },
+      payload: { layerID: action.payload.layerID, PMTileURL: response.data },
     });
     console.log('pmtile url is fetched');
   }
