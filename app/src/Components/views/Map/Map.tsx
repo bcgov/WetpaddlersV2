@@ -13,6 +13,7 @@ import {
   MlMarker,
   MlWmsLayer,
 } from '@mapcomponents/react-maplibre';
+import WarningModal from '../../WarningModal/WarningModal';
 // @ts-expect-error Override
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 // @ts-expect-error Override
@@ -79,6 +80,7 @@ const Map = (props: any) => {
     */
   return (
     <CommonFullCont>
+      <WarningModal />
       <LayerPicker />
       <MapContent>
         {' '}
