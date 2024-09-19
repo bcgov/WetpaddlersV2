@@ -170,6 +170,26 @@ const Map = (props: any) => {
 
             return null
           })}
+        {Object.keys(layerDict)
+          .filter((layer) => layerDict?.[layer]?.vectorToggle && layerDict?.[layer]?.vectorToggle === false && layerDict?.[layer]?.pmTileURL !== null)
+          .map((layer) => {
+
+            const p = new PMTiles(layerDict[layer].pmTileURL);
+        
+            // this is so we share one instance across the JS code and the map renderer
+            protocol.add(p);
+
+            //p.getHeader().then((header) => {
+              //check if source exists first:
+
+              if (map?.map?.getSource(layerDict[layer].name + 'vector')) {
+                map?.map?.removeLayer(layerDict[layer].name + 'vector');
+                map?.map?.removeSource(layerDict[layer].name + 'vector');
+              }
+        
+
+            return null
+          })}
       </MapContent>
     </CommonFullCont>
   );
