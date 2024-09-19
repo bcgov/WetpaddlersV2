@@ -6,6 +6,9 @@ type Props = {
 export const Button = styled.button<Props>`
   min-height: 40px;
   min-width: 40px;
+  &:hover {
+    cursor: pointer;
+  }
   ${({ disabled }) => {
     if (disabled)
       return `
