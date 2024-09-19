@@ -103,7 +103,7 @@ function createMapStateReducer(
               name: layer.name,
               title: layer.title,
               metadataLink: layer.metadataLink,
-              pmTileURL: null,
+              pmTileURL: 'invasives-local.pmtiles',
               localPMTileURL: null,
             };
             draftState.layersDict[layer.id] = newLayer;

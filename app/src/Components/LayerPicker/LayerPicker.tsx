@@ -10,20 +10,21 @@ import {
   TopBar,
 } from './LayerPicker.style';
 import ListItem from './ListItem/ListItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { REQUEST_CACHE_OFFLINE_MAP } from '../../state/actions';
 
 const LayerPicker = () => {
   const layersDict = useSelector((state: any) => state.MapState.layersDict);
   const [open, setOpen] = useState<boolean>(false);
   const [visibleLayersFilter, setVisibleLayersFilter] = useState(false);
   const [filter, setFilter] = useState<string>('');
-
+  
   const handleToggle = () => setOpen((prev) => !prev);
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) =>
     setFilter(evt.target.value);
   const handleVisibleLayerFilter = () =>
     setVisibleLayersFilter((prev) => !prev);
-
+  
   const filterRules = (test: Record<string, any>): boolean => {
     const title = test.title.toLowerCase();
     const testfilter = filter.toLowerCase();
@@ -32,8 +33,15 @@ const LayerPicker = () => {
       (visibleLayersFilter &&
         test.toggle &&
         (!testfilter || title.includes(filter)))
-    );
-  };
+      );
+    };
+
+  // const dispatch = useDispatch();
+
+  // const cacheOfflineMap = () => {
+  //   dispatch({ type: REQUEST_CACHE_OFFLINE_MAP, payload: {} });
+  // };
+
   return (
     <>
       {!open ? (
@@ -46,6 +54,9 @@ const LayerPicker = () => {
             <LayersFilterButton onClick={handleVisibleLayerFilter}>
               {visibleLayersFilter ? 'Show All Layers' : 'Show Visible Layers'}
             </LayersFilterButton>
+            {/* <p onClick={cacheOfflineMap}>
+              Get PMTile
+            </p> */}
             <TextInput
               type="text"
               value={filter ?? ''}

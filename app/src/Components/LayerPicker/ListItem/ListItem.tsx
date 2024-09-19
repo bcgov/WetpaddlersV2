@@ -7,6 +7,7 @@ import CachedButton from '../CachedButton/CachedButton';
 import {
   DELETE_CACHE_OFFLINE_MAP,
   REQUEST_CACHE_LAYER,
+  REQUEST_CACHE_OFFLINE_MAP,
   TOGGLE_LAYER,
   TOGGLE_LAYER_MODE,
 } from '../../../state/actions';
@@ -40,7 +41,10 @@ const ListItem = ({ stateKey }: PropTypes) => {
       });
     }
   };
-
+    
+  const cacheOfflineMap = () => {
+    dispatch({ type: REQUEST_CACHE_OFFLINE_MAP, payload: {} });
+  };
   return (
     <Row key={entry.title}>
       <ToggleLayerButton clickHandler={toggleLayerVis} toggledOn={entry.toggle} />
@@ -54,6 +58,9 @@ const ListItem = ({ stateKey }: PropTypes) => {
           toggledOn={entry.cached}
         />
       )}
+      {/* <b onClick={cacheOfflineMap}>
+        [[PMT]]
+      </b>       */}
       <Text>{entry?.title}</Text>
       <CopyButton content={entry.metadataLink} />
     </Row>

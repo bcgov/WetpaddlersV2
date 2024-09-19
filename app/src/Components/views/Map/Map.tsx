@@ -133,7 +133,7 @@ const Map = (props: any) => {
           .filter((layer) => layerDict?.[layer]?.vectorToggle && layerDict?.[layer]?.vectorToggle === true && layerDict?.[layer]?.pmTileURL !== null)
           .map((layer) => {
 
-            const p = new PMTiles(layerDict[layer].pmTileURL);
+            const p = new PMTiles('invasives-local.pmtiles');
         
             // this is so we share one instance across the JS code and the map renderer
             protocol.add(p);
@@ -148,22 +148,22 @@ const Map = (props: any) => {
         
             map?.map?.addSource(layerDict[layer].name + 'vector', {
               type: 'vector',
-              url: `pmtiles://${layerDict[layer].pmTileURL}`,
+              url: `pmtiles://invasives-local.pmtiles`,
               minzoom: 0,
               maxzoom: 24,
             });
 
             map?.map?.addLayer({
               id: layerDict[layer].name + 'vector',
-              type: 'fill',
+              type: 'circle',
               source: layerDict[layer].name + 'vector',
-              "source-layer": 'tippecanoe_input',
+              "source-layer": 'invasives',
               layout: {
                 visibility: layerDict[layer].toggle ? 'visible' : 'none',
               },
               paint: {
-                'fill-color': '#0905f5',
-                'fill-opacity': 1.0,
+                'circle-color': '#0905f5',
+                'circle-opacity': 1.0,
               },
             });
         //  });
@@ -174,10 +174,10 @@ const Map = (props: any) => {
           .filter((layer) => layerDict?.[layer]?.vectorToggle && layerDict?.[layer]?.vectorToggle === false && layerDict?.[layer]?.pmTileURL !== null)
           .map((layer) => {
 
-            const p = new PMTiles(layerDict[layer].pmTileURL);
+            // const p = new PMTiles(layerDict[layer].pmTileURL);
         
             // this is so we share one instance across the JS code and the map renderer
-            protocol.add(p);
+            // protocol.add(p);
 
             //p.getHeader().then((header) => {
               //check if source exists first:

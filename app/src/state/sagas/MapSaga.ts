@@ -13,6 +13,8 @@ import {
 } from '../actions';
 import { CapacitorHttp } from '@capacitor/core';
 import { xml2js } from 'xml-js';
+import { Directory, Filesystem } from "@capacitor/filesystem";
+import write_blob from 'capacitor-blob-writer';
 
 const API_URL = import.meta.env.VITE_API_ENDPOINT;
 const DBC_API_BASE_URL =
@@ -135,20 +137,50 @@ function* handle_TOGGLE_LAYER_MODE(action) {
 }
 
 async function getPMTILE_FILE(id, url) {
-  const response = await CapacitorHttp.get({ url: url });
-  // write to disk here, get filepath
-  const filepath = '';
-  put({
-    type: CACHE_LAYER_SUCCESS,
-    payload: { id: id, localPMTileURL: filepath },
-  });
-  return filepath;
+//  console.log(`fetch url: ${url}`);
+//  const response = await CapacitorHttp.get({
+//   url: url, 
+//   // params: {
+//   //   mode: 'no-cors'
+//   // }
+// });
+//  const file = await response.data;
+//  const headers = await response.headers;
+//  console.log('Headers:');
+//  console.log(headers);
+ 
+//  console.log(`Directory.Data: ${Directory.Data}`);
+
+//  // write to disk here, get filepath
+//  const filepath = await Filesystem.writeFile({
+//   path: url.split('/').pop(),
+//   data: file,
+//   directory: Directory.Data,
+//  });
+
+//  const results = await write_blob({
+//   path: url.split('/').pop(),
+//   directory: Directory.Data,
+//   blob: file
+//  });
+
+ // TODO: get filepath of pmtiles file in assets dir
+ const filepath = '';
+
+
+ put({
+   type: CACHE_LAYER_SUCCESS,
+   payload: { id: id, localPMTileURL: filepath },
+ });
+ console.log(`Saved to ${filepath}`);
+ return filepath;
 }
 
 function* handle_REQUEST_CACHE_OFFLINE_MAP(action) {
   // get all layers toggled on that also have a pmtileurl
+  console.log('Handling REQUEST_CACHE_OFFLINE_MAP...');
   const mapState = yield select((state) => state.MapState);
-  const layersToCache = Object.keys(mapState.layersDict).filter((layer) => {
+  const layersToCache = Object.keys( mapState.layersDict).filter((layer) => {
     return (
       mapState.layersDict[layer].toggle &&
       mapState.layersDict[layer].pmTileURL !== null
@@ -162,6 +194,8 @@ function* handle_REQUEST_CACHE_OFFLINE_MAP(action) {
       call(getPMTILE_FILE, element, mapState.layersDict[element].pmTileURL),
     );
   });
+  console.log('pushing the call to get pm tile file');
+  calls.push(call(getPMTILE_FILE, null, 'https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles'))
 
   yield all(calls);
   yield put({ type: CACHE_OFFLINE_MAP_SUCCESS });
