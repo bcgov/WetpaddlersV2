@@ -79,7 +79,7 @@ function* handle_REQUEST_LAYER_VECTOR(action) {
       type: LAYER_VECTOR_SUCCESS,
       payload: {
         layerID: action.payload.layerID,
-        PMTileURL: response.data
+        pmTileURL: response.data
       },
     });
     console.log('pmtile url is fetched');
