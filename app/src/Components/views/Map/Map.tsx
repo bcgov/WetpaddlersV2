@@ -7,6 +7,7 @@ import {
   MlWmsLayer,
   useMap,
 } from '@mapcomponents/react-maplibre';
+import randomcolor from 'randomcolor';
 import WarningModal from '../../WarningModal/WarningModal';
 import maplibregl, { Marker } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
@@ -162,8 +163,8 @@ const Map = (props: any) => {
                 visibility: layerDict[layer].toggle ? 'visible' : 'none',
               },
               paint: {
-                'fill-color': '#0905f5',
-                'fill-opacity': 1.0,
+                'fill-color': randomcolor(),
+                'fill-opacity': 0.7,
               },
             });
         //  });
