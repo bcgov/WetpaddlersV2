@@ -129,10 +129,7 @@ const Map = (props: any) => {
             );
           })}
         <MlVectorTileLayer
-          sourceOptions={{
-            type: 'vector',
-            url: 'https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles',
-          }}
+          layerId='pmtiles'
           layers={[
             {
               id: 'invasivesbc-pmtile-vector',
@@ -143,12 +140,11 @@ const Map = (props: any) => {
                 visibility: 'visible',
               },
               paint: { 'circle-color': '#0905f5', 'circle-opacity': 1.0 },
-              maxzoom: 28,
+              maxzoom: 24,
             },
           ]}
-          url={
-            'pmtiles://https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles'
-          }
+          url='pmtiles://https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles'
+          
         />
       </MapContent>
     </CommonFullCont>
