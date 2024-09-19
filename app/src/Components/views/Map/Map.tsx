@@ -28,6 +28,8 @@ const positionMarkerEl = document.createElement('div');
 positionMarkerEl.className = 'userTrackingMarker';
 positionMarkerEl.style.backgroundImage = 'url("/wheres-waldo-seeklogo.svg")';
 
+    const protocol = new Protocol();
+    maplibregl.addProtocol('pmtiles', protocol.tile);
 const Map = (props: any) => {
   const dispatch = useDispatch();
   const layerDict = useSelector((state: any) => state.MapState.layersDict);
@@ -38,22 +40,16 @@ const Map = (props: any) => {
     element: positionMarkerEl,
   });
 
-  useEffect(() => {
-    const protocol = new Protocol();
-    maplibregl.addProtocol('pmtiles', (request) => {
-      return new Promise((resolve, reject) => {
-        const callback = (err, data) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve({ data });
-          }
-        };
-        protocol.tile(request, callback);
-      });
-    });
+  const [loaded, setLoaded] = useState(false);
 
-    const PMTILES_URL = `https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles`;
+
+  //map?.map?.on('load', () => {
+
+
+  useEffect(() => {
+
+    /*
+    const PMTILES_URL = `https://nrs.objectstore.gov.bc.ca/gpdqha/wetpaddlersv2/bc_base_map.pmtiles`;
 
     const p = new PMTiles(PMTILES_URL);
 
@@ -62,26 +58,41 @@ const Map = (props: any) => {
 
     // we first fetch the header so we can get the center lon, lat of the map.
     p.getHeader().then((header) => {
-      map?.map?.addSource('pmtiles', {
+    map?.map?.addSource('pmtiles', {
         type: 'vector',
         url: `pmtiles://${PMTILES_URL}`,
         //              url: `https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles`,
         // url: `pmtiles://${ CONFIG.PUBLIC_MAP_URL}`,
         attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
       });
-      map?.map?.addLayer({
-        id: 'invasivesbc-pmtile-vector',
-        type: 'circle',
-        source: 'pmtiles',
-        'source-layer': 'invasives',
-        layout: {
-          visibility: 'visible',
+      map?.map?.addLayer(
+        {
+          id: 'invasivesbc-pmtile-vector',
+          type: 'circle',
+          source: 'pmtiles',
+          'source-layer': 'places',
+          layout: {
+            visibility: 'visible',
+          },
+          paint: { 'circle-color': '#add8e6', 'circle-opacity': 1.0},
+          maxzoom: 20,
+        })
+        /*
+      map?.map?.addLayer(
+        {
+          id: 'invasivesbc-pmtile-vector3',
+          type: 'fill',
+          source: 'pmtiles',
+          'source-layer': 'boundaries',
+          layout: {
+            visibility: 'visible',
+          },
+          paint: { 'fill-color': '#0905f5', 'fill-opacity': 0.5 },
+          maxzoom: 20,
         },
-        paint: { 'circle-color': '#0905f5', 'circle-opacity': 0.5 },
-        maxzoom: 20,
-      });
-    });
-  }, [map]);
+      );
+      */
+ }, []);
 
   return (
     <CommonFullCont>
@@ -98,6 +109,7 @@ const Map = (props: any) => {
         ></MapLibreMap>
         <MlWmsLayer
           mapId="map"
+          //insertBeforeLayer='invasivesbc-pmtile-vector'
           url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
         />
         <MlMarker
@@ -116,6 +128,47 @@ const Map = (props: any) => {
                 visible={layerDict[layer].toggle}
               />
             );
+          })}
+        {Object.keys(layerDict)
+          .filter((layer) => layerDict?.[layer]?.vectorToggle && layerDict?.[layer]?.vectorToggle === true && layerDict?.[layer]?.pmTileURL !== null)
+          .map((layer) => {
+
+            const p = new PMTiles(layerDict[layer].pmTileURL);
+        
+            // this is so we share one instance across the JS code and the map renderer
+            protocol.add(p);
+
+            //p.getHeader().then((header) => {
+              //check if source exists first:
+
+              if (map?.map?.getSource(layerDict[layer].name + 'vector')) {
+                map?.map?.removeLayer(layerDict[layer].name + 'vector');
+                map?.map?.removeSource(layerDict[layer].name + 'vector');
+              }
+        
+            map?.map?.addSource(layerDict[layer].name + 'vector', {
+              type: 'vector',
+              url: `pmtiles://${layerDict[layer].pmTileURL}`,
+              minzoom: 0,
+              maxzoom: 24,
+            });
+
+            map?.map?.addLayer({
+              id: layerDict[layer].name + 'vector',
+              type: 'fill',
+              source: layerDict[layer].name + 'vector',
+              "source-layer": 'tippecanoe_input',
+              layout: {
+                visibility: layerDict[layer].toggle ? 'visible' : 'none',
+              },
+              paint: {
+                'fill-color': '#0905f5',
+                'fill-opacity': 1.0,
+              },
+            });
+        //  });
+
+            return null
           })}
       </MapContent>
     </CommonFullCont>
