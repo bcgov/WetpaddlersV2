@@ -5,8 +5,9 @@ import copySuccess from '/check-circle.svg';
 
 type PropTypes = {
   content: number | string;
+  disabled: boolean;
 };
-const CopyButton = ({ content }: PropTypes) => {
+const CopyButton = ({ content, disabled }: PropTypes) => {
   const [success, setSuccess] = useState<boolean>(false);
   const handleClick = () => {
     if (navigator.clipboard) {
@@ -16,7 +17,7 @@ const CopyButton = ({ content }: PropTypes) => {
     }
   };
   return (
-    <Button onClick={handleClick}>
+    <Button disabled={disabled} onClick={handleClick}>
       <Img src={success ? copySuccess : copy} />
     </Button>
   );

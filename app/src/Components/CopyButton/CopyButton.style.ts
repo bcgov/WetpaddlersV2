@@ -1,8 +1,22 @@
 import styled from '@emotion/styled';
 
-export const Button = styled.button`
+type Props = {
+  disabled: boolean;
+};
+export const Button = styled.button<Props>`
   min-height: 40px;
   min-width: 40px;
+  ${({ disabled }) => {
+    if (disabled)
+      return `
+    display: none;
+    &:hover {
+      cursor: not-allowed;
+    }
+
+  `;
+  }}
+  }
 `;
 
 export const Img = styled.img`

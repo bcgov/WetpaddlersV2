@@ -43,7 +43,10 @@ const ListItem = ({ stateKey }: PropTypes) => {
 
   return (
     <Row key={entry.title}>
-      <ToggleLayerButton clickHandler={toggleLayerVis} toggledOn={entry.toggle} />
+      <ToggleLayerButton
+        clickHandler={toggleLayerVis}
+        toggledOn={entry.toggle}
+      />
       <ToggleVectorWmsButton
         clickHandler={toggleLayerMode}
         toggledOn={entry.vectorToggle}
@@ -55,7 +58,7 @@ const ListItem = ({ stateKey }: PropTypes) => {
         />
       )}
       <Text>{entry?.title}</Text>
-      <CopyButton content={entry.metadataLink} />
+      <CopyButton disabled={!entry.pmTileURL} content={entry.pmTileURL} />
     </Row>
   );
 };
