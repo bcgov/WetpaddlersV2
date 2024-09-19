@@ -72,6 +72,15 @@ export const TopBar = styled.div`
   border-bottom: 2pt solid ${colors.bcYellow};
 `;
 
+export const LayersFilterButton = styled.button`
+  height: 25pt;
+  width: 125pt;
+  border: 1pt solid black;
+  border-radius: 4pt;
+  margin-right: 1rem;
+  background-color: white;
+  cursor: pointer;
+`;
 export const ClosePickerButton = styled.button`
   height: 25pt;
   width: 25pt;
@@ -80,12 +89,6 @@ export const ClosePickerButton = styled.button`
   padding: 0;
   background-color: transparent;
   border: none;
-`;
-
-export const CheckBox = styled.input`
-  min-height: 20pt;
-  min-width: 20pt;
-  margin-right: 1rem;
 `;
 
 export const ListButton = styled.button`
