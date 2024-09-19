@@ -26,35 +26,59 @@ async function doFetch() {
 }
 
 async function get_PMTILE_URL(id, layerNameInDBC, filterShape) {
+  if (!API_URL) {
+    console.error('Missing API URL, cannot continue');
+    return;
+  }
   const payload = {
-    id: id,
-    url: DBC_API_BASE_URL + layerNameInDBC,
-    filterShape: filterShape,
+    layer: layerNameInDBC,
+    bbox: filterShape,
   };
-  const response = await CapacitorHttp.get({
-    url: API_URL + '/api/v1/pmtile',
-    params: payload,
+  console.log(payload);
+  const response = await CapacitorHttp.post({
+    url: API_URL + '/api/v1/create_pm_tiles',
+    data: payload,
   });
   return response;
 }
 
+const createBoundingBox = (
+  shape: Record<string, any>,
+): [number, number, number, number] => {
+  const coords = shape.geometry.coordinates[0];
+  const lats = coords.map((item) => item[0]);
+  const longs = coords.map((item) => item[1]);
+  const box = {
+    min: {
+      lat: Math.min(...lats),
+      long: Math.min(...longs),
+    },
+    max: {
+      lat: Math.max(...lats),
+      long: Math.max(...longs),
+    },
+  };
+
+  return [box.min.lat, box.min.long, box.max.lat, box.max.long];
+};
+
 function* handle_REQUEST_LAYER_VECTOR(action) {
   const mapState = yield select((state) => state.MapState);
-  //TODO once call is ready
-  if (false) {
-    const response = yield call(
-      get_PMTILE_URL,
-      action.payload.layerID,
-      mapState.layersDict[action.payload.layerID].name,
-      action.payload.filterShape,
-    );
-    if (response.status === 200) {
-      yield put({
-        type: LAYER_VECTOR_SUCCESS,
-        payload: { layerID: action.payload.layerID, PMTileURL: response.data },
-      });
-      console.log('pmtile url is fetched');
-    }
+  const boundingBox = createBoundingBox(mapState.filterShape);
+
+  const response = yield call(
+    get_PMTILE_URL,
+    action.payload.layerID,
+    mapState.layersDict[action.payload.layerID].name,
+    boundingBox,
+  );
+  if (response.status === 200) {
+    console.log(response);
+    yield put({
+      type: LAYER_VECTOR_SUCCESS,
+      payload: { layerID: action.payload.layerID, PMTileURL: response.data },
+    });
+    console.log('pmtile url is fetched');
   }
 }
 
@@ -95,15 +119,13 @@ function* handle_TOGGLE_LAYER_MODE(action) {
   console.log('side effect happening');
   const mapState = yield select((state) => state.MapState);
   // Add logic to determine if warning needed
-  yield put({ type: TOGGLE_WARNING_MESSAGE });
+  // yield put({ type: TOGGLE_WARNING_MESSAGE });
 
   if (
     mapState.layersDict[action.payload.layerID].vectorToggle &&
     mapState.layersDict[action.payload.layerID].pmTileURL === null
   ) {
     yield put({ type: REQUEST_LAYER_VECTOR, payload: action.payload });
-
-    console.log('vector layer is toggled on and cached');
   }
 }
 

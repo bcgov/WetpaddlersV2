@@ -17,9 +17,25 @@ class MapState {
   [immerable] = true;
   layersDict: any;
   showWarning: boolean;
+  filterShape: Record<string, any>;
   constructor() {
     this.layersDict = {};
     this.showWarning = false;
+    this.filterShape = {
+      type: 'Feature',
+      geometry: {
+        coordinates: [
+          [
+            [-128.5393998302764, 50.9178083352341],
+            [-123.08776009294597, 50.9178083352341],
+            [-123.08776009294597, 48.24248360602138],
+            [-128.5393998302764, 48.24248360602138],
+            [-128.5393998302764, 50.9178083352341],
+          ],
+        ],
+        type: 'Polygon',
+      },
+    };
   }
 }
 const initialState = new MapState();
