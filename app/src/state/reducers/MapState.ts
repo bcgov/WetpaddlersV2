@@ -103,7 +103,7 @@ function createMapStateReducer(
               name: layer.name,
               title: layer.title,
               metadataLink: layer.metadataLink,
-              pmTileURL: 'https://nrs.objectstore.gov.bc.ca/gpdqha/wetpaddlersv2/WHSE_ADMIN_BOUNDARIES.EBC_ELECTORAL_DISTS_BS11_SVW.pmtiles',//null,
+              pmTileURL: null,
               localPMTileURL: null,
             };
             draftState.layersDict[layer.id] = newLayer;
