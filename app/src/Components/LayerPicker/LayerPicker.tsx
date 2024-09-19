@@ -16,7 +16,7 @@ const LayerPicker = () => {
   const layersDict = useSelector((state: any) => state.MapState.layersDict);
   const [open, setOpen] = useState<boolean>(false);
   const [visibleLayersFilter, setVisibleLayersFilter] = useState(false);
-  const [filter, setFilter] = useState<string>();
+  const [filter, setFilter] = useState<string>('');
 
   const handleToggle = () => setOpen((prev) => !prev);
   const handleChange = (evt: ChangeEvent<HTMLInputElement>) =>
@@ -27,7 +27,7 @@ const LayerPicker = () => {
   const filterRules = (test: Record<string, any>): boolean => {
     const title = test.title.toLowerCase();
     const testfilter = filter.toLowerCase();
-    if (!visibleLayersFilter && (!filter || title.includes(filter))) {
+    if (!visibleLayersFilter && (!testfilter || title.includes(testfilter))) {
       return true;
     } else if (
       visibleLayersFilter &&
