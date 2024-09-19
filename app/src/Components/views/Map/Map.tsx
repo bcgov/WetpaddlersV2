@@ -2,14 +2,13 @@ import MapboxDraw from '@mapbox/mapbox-gl-draw';
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import {
   MapLibreMap,
+  MlImageMarkerLayer,
   MlMarker,
   MlWmsLayer,
   useMap,
 } from '@mapcomponents/react-maplibre';
-<<<<<<< Updated upstream
 import WarningModal from '../../WarningModal/WarningModal';
-=======
-import maplibregl from 'maplibre-gl';
+import maplibregl, { Marker } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { PMTiles, Protocol } from 'pmtiles';
 import { useEffect, useRef, useState } from 'react';
@@ -18,7 +17,6 @@ import { CommonFullCont } from '../../../assets/common-styles/common.styles';
 import LayerPicker from '../../LayerPicker/LayerPicker';
 import { MapContent } from './Map.style';
 import './map.css';
->>>>>>> Stashed changes
 // @ts-expect-error Override
 MapboxDraw.constants.classes.CONTROL_BASE = 'maplibregl-ctrl';
 // @ts-expect-error Override
@@ -36,8 +34,6 @@ const Map = (props: any) => {
   const mapCont = useRef<any>(null);
   const map = useMap({ mapId: 'map' });
   const drawTools = useRef<any>(new MapboxDraw());
-  const [lat] = useState<number>(-121);
-  const [long] = useState<number>(54);
   const marker = new maplibregl.Marker({
     element: positionMarkerEl,
   });
@@ -85,7 +81,6 @@ const Map = (props: any) => {
         maxzoom: 20,
       });
     });
-
   }, [map]);
 
   return (
@@ -94,20 +89,21 @@ const Map = (props: any) => {
       <LayerPicker />
       <MapContent>
         {' '}
-        {/*<div ref={mapCont} className="map" />*/}
         <MapLibreMap
           mapId="map"
           options={{
-            zoom: 14.5,
-            center: [7.0851268, 50.73884],
+            zoom: 6,
+            center: [-123.0851268, 50.33884],
           }}
         ></MapLibreMap>
-        <MlWmsLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
-        {/* put waldo in content here:*/}
+        <MlWmsLayer
+          mapId="map"
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        />
         <MlMarker
           content="<div>This is where waldo is</div>"
           lat={50.73884}
-          lng={7.0851268}
+          lng={-121.0851268}
         />
         {Object.keys(layerDict)
           .filter((layer) => !layerDict?.[layer]?.vectorToggle)
