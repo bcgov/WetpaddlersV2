@@ -143,7 +143,7 @@ const Map = (props: any) => {
               maxzoom: 24,
             },
           ]}
-          url='pmtiles://https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles'
+          url='pmtiles://https://nrs.objectstore.gov.bc.ca/uphjps/invasives-local.pmtiles/{z}/{x}/{y}'
           
         />
       </MapContent>
