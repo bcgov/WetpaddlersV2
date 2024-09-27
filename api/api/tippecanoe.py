@@ -19,6 +19,8 @@ def process_geojson(feature_collection: dict, temp_dir: str):
                 f"--output={output_fname}",
                 "--no-tile-compression",
                 "--force",
+                "--drop-densest-as-needed",
+                "-s EPSG:4326",
             ],
             check=True,
         )

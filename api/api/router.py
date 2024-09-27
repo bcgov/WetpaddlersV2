@@ -28,7 +28,7 @@ async def geo(geo: dict, response: Response):
 @router.post("/WFSTOGEOJSON")
 async def WFSTOGEOJSON(req: dict):
     logger.info(f'Layer: {req.get("layer")}')
-    geojson = get_geojson_from_wfs(req.get("layer"), req.get("bbox", None))
+    geojson = get_geojson_from_wfs(req.get("layer"))
     return geojson
 
 
