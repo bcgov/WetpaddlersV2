@@ -20,6 +20,7 @@ def process_geojson(feature_collection: dict, temp_dir: str):
                 "--no-tile-compression",
                 "--force",
                 "--drop-densest-as-needed",
+                "--extend-zooms-if-still-dropping",
                 "-s EPSG:4326",
             ],
             check=True,
